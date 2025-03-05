@@ -1,0 +1,20 @@
+.app {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.mainContent {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 112px 35px 0;
+}
+
+@media (width <= 640px) {
+  .mainContent {
+    padding: 64px 16px 0;
+  }
+}
