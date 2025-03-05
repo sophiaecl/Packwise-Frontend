@@ -1,8 +1,8 @@
 import React from "react";
-import Header from "../../components/Header/Header";
-import HeroSection from "../../components/HeroSection/HeroSection";
-import FeaturesSection from "../../components/FeatureSection/FeatureSection";
-import BackgroundImage from "../../components/BackgroundImage/BackgroundImage";
+import Header from "../../components/LandingPage/Header/Header";
+import HeroSection from "../../components/LandingPage/HeroSection/HeroSection";
+import FeaturesSection from "../../components/LandingPage/FeatureSection/FeatureSection";
+import BackgroundImage from "../../components/LandingPage/BackgroundImage/BackgroundImage";
 import styles from "./LandingPage.module.css";
 
 function LandingPage() {

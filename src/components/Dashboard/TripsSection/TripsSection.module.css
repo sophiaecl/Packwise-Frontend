@@ -1,0 +1,56 @@
+.tripsSection {
+    background-color: #68876a;
+    border: 1px solid #455e46;
+    border-radius: 8px;
+    width: 805px;
+    padding: 30px 25px;
+    box-shadow: 0 1px 3px #0000001a;
+  }
+  
+  .tripsHeader {
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    display: flex;
+  }
+  
+  .tripsTitle {
+    color: #f0e7dd;
+    font-family: Sunflare, sans-serif;
+    font-size: 36px;
+    line-height: 30px;
+    margin: 0;
+  }
+  
+  .newTripButton {
+    color: #455e46;
+    cursor: pointer;
+    background-color: #f0e7dd;
+    border: 1px solid #455e46;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-family:
+      Playfair Display,
+      serif;
+    font-size: 18px;
+    font-weight: 800;
+  }
+  
+  @media (width <= 991px) {
+    .tripsSection {
+      width: 100%;
+    }
+  }
+  
+  @media (width <= 640px) {
+    .tripsHeader {
+      flex-direction: column;
+      gap: 16px;
+    }
+  
+    .newTripButton {
+      text-align: center;
+      width: 100%;
+    }
+  }
+  
