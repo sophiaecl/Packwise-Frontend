@@ -1,0 +1,27 @@
+.notificationCard {
+    background-color: #fff;
+    border: 1px solid #a8707d;
+    border-radius: 4px;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding: 16px;
+    display: flex;
+  }
+  
+  .notificationText {
+    color: #455e46;
+    font-family:
+      Playfair Display,
+      serif;
+    font-size: 16px;
+    line-height: 21px;
+    margin: 0;
+  }
+  
+  @media (width <= 640px) {
+    .notificationCard {
+      padding: 12px;
+    }
+  }
+  

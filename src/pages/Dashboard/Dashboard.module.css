@@ -1,0 +1,46 @@
+.app {
+    background-color: #f0e7dd;
+    min-height: 100vh;
+    padding: 0;
+  }
+  
+  .welcome {
+    color: #455e46;
+    margin: 40px 24px;
+    font-family: Michelia, sans-serif;
+    font-size: 55px;
+    line-height: 21px;
+  }
+  
+  .statsContainer {
+    gap: 25px;
+    margin-bottom: 40px;
+    padding: 0 24px;
+    display: flex;
+  }
+  
+  .contentContainer {
+    gap: 32px;
+    padding: 0 24px;
+    display: flex;
+  }
+  
+  @media (width <= 991px) {
+    .statsContainer,
+    .contentContainer {
+      flex-direction: column;
+    }
+  }
+  
+  @media (width <= 640px) {
+    .welcome {
+      margin: 24px 16px;
+      font-size: 40px;
+    }
+  
+    .statsContainer,
+    .contentContainer {
+      padding: 0 16px;
+    }
+  }
+  

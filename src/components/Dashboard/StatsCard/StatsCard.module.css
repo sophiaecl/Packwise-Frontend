@@ -1,0 +1,35 @@
+.statCard {
+    background-color: #e7c2cb;
+    border: 1px solid #a8707d;
+    border-radius: 8px;
+    width: 392px;
+    height: 130px;
+    padding: 25px;
+    box-shadow: 0 1px 3px #0000001a;
+  }
+  
+  .statTitle {
+    color: #a8707d;
+    margin-bottom: 8px;
+    font-family: Sunflare, sans-serif;
+    font-size: 28px;
+    line-height: 24px;
+  }
+  
+  .statValue {
+    color: #455e46;
+    font-family:
+      Playfair Display,
+      serif;
+    font-size: 36px;
+    font-weight: 900;
+    line-height: 48px;
+    margin: 0;
+  }
+  
+  @media (width <= 991px) {
+    .statCard {
+      width: 100%;
+    }
+  }
+  

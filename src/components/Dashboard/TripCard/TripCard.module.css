@@ -1,0 +1,93 @@
+.tripCard {
+    background-color: #fff;
+    border: 1px solid #a8707d;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    padding: 16px;
+  }
+  
+  .tripInfo {
+    margin-bottom: 16px;
+  }
+  
+  .tripName {
+    color: #455e46;
+    font-family:
+      Playfair Display,
+      serif;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 24px;
+    margin: 0;
+  }
+  
+  .tripDate {
+    color: #455e46;
+    margin-top: 4px;
+    font-family:
+      Playfair Display,
+      serif;
+    font-size: 15px;
+    line-height: 21px;
+    display: block;
+  }
+  
+  .tripStatus {
+    background-color: #f0e7dd;
+    border-radius: 9999px;
+    margin-bottom: 16px;
+    padding: 4px 12px;
+    font-family:
+      Playfair Display,
+      serif;
+    font-size: 15px;
+    line-height: 21px;
+    display: inline-block;
+  }
+  
+  .progressContainer {
+    align-items: center;
+    gap: 12px;
+    display: flex;
+  }
+  
+  .progressBar {
+    background-color: #f0e7dd;
+    border-radius: 9999px;
+    flex-grow: 1;
+    height: 8px;
+    overflow: hidden;
+  }
+  
+  .progress {
+    background-color: #e7c2cb;
+    border-radius: 9999px;
+    height: 100%;
+    transition: width 0.3s ease;
+  }
+  
+  .progressCompleted {
+    composes: progress;
+    width: 100%;
+  }
+  
+  .progressValue {
+    color: #a8707d;
+    font-family:
+      Playfair Display,
+      serif;
+    font-size: 15px;
+    font-weight: 900;
+    line-height: 21px;
+  }
+  
+  .progressValueCompleted {
+    composes: progressValue;
+  }
+  
+  @media (width <= 640px) {
+    .tripCard {
+      padding: 12px;
+    }
+  }
+  

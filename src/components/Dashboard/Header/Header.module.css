@@ -1,0 +1,30 @@
+.header {
+    background-color: #455e46;
+    justify-content: space-between;
+    align-items: center;
+    height: 73px;
+    padding: 0 35px;
+    display: flex;
+  }
+  
+  .logo {
+    color: #f0e7dd;
+    font-family: Sunflare, sans-serif;
+    font-size: 36px;
+    line-height: 36px;
+    margin: 0;
+  }
+  
+  .profileImage {
+    background-color: #d9d9d9;
+    border-radius: 50%;
+    width: 46px;
+    height: 46px;
+  }
+  
+  @media (width <= 640px) {
+    .header {
+      padding: 0 16px;
+    }
+  }
+  

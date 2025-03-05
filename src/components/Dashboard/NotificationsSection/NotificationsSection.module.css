@@ -1,0 +1,24 @@
+.notificationsSection {
+    background-color: #68876a;
+    border: 1px solid #455e46;
+    border-radius: 8px;
+    width: 387px;
+    padding: 25px;
+    box-shadow: 0 1px 3px #0000001a;
+  }
+  
+  .notificationsTitle {
+    color: #f0e7dd;
+    margin-bottom: 24px;
+    font-family: Sunflare, sans-serif;
+    font-size: 28px;
+    line-height: 30px;
+    margin-top: 0;
+  }
+  
+  @media (width <= 991px) {
+    .notificationsSection {
+      width: 100%;
+    }
+  }
+  
