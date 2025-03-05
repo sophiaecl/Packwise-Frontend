@@ -12,7 +12,6 @@ function LandingPage() {
       <main className={styles.mainContent}>
         <HeroSection />
         <FeaturesSection />
-        <BackgroundImage />
       </main>
     </div>
   );
