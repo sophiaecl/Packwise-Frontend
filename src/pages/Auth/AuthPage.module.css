@@ -1,0 +1,111 @@
+.page {
+  background-color: #f0e7dd;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  background-color: #455e46;
+  border-bottom: 1px solid #003d04;
+  align-items: center;
+  height: 73px;
+  padding: 0 32px;
+  display: flex;
+}
+
+.logo {
+  color: #f0e7dd;
+  font-family: Sunflare, sans-serif;
+  font-size: 36px;
+  line-height: 54px;
+  margin: 0;
+}
+
+.content {
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  display: flex;
+  padding: 40px 0; /* Add vertical padding */
+}
+
+.loginContainer {
+  background-color: #fff;
+  border: 1px solid #455e46;
+  border-radius: 8px;
+  width: 436px;
+  padding: 32px;
+  margin: 40px 0; /* Add vertical margin */
+  box-shadow:
+    0 1px 3px #0000001a,
+    0 1px 2px #0000001a;
+  /*max-height: calc(100vh - 180px); /* Limit maximum height */
+  overflow-y: auto; /* Add scrolling if content is too tall */
+}
+
+.tabs {
+  margin-bottom: 40px;
+  display: flex;
+  position: relative;
+}
+
+.tab {
+  cursor: pointer;
+  text-align: center;
+  width: 178px;
+  padding-bottom: 10px;
+  font-family: Sunflare, sans-serif;
+  font-size: 24px;
+  line-height: 30px;
+  background: none;
+  border: none;
+}
+
+.tabIndicator {
+  background-color: #354935;
+  width: 178px;
+  height: 2px;
+  transition: left 0.3s ease-in-out;
+  position: absolute;
+  bottom: 0;
+}
+
+@media (width <= 991px) {
+  .loginContainer {
+    width: 80%;
+    max-width: 436px;
+    margin: 30px 0;
+  }
+}
+
+@media (width <= 640px) {
+  .header {
+    height: 60px;
+    padding: 0 16px;
+  }
+
+  .logo {
+    font-size: 28px;
+    line-height: 42px;
+  }
+
+  .content {
+    padding: 20px 0;
+  }
+
+  .loginContainer {
+    width: 90%;
+    padding: 24px;
+    margin: 20px 0;
+    max-height: calc(100vh - 140px);
+  }
+
+  .tabs {
+    margin-bottom: 32px;
+  }
+
+  .tab {
+    font-size: 20px;
+  }
+}
