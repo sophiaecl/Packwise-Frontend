@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../../context/auth-context";
+import { useAuth } from "../../context/auth-context";
 import styles from "./Header.module.css";
 
 function Header() {
