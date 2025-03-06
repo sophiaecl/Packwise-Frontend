@@ -1,19 +1,44 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 import styles from "./AuthPage.module.css";
+import { useAuth } from "../../context/auth-context";
 
 const AuthContainer = () => {
-  const [isLoginForm, setIsLoginForm] = useState(true);
+  const location = useLocation();
+  const [isLoginForm, setIsLoginForm] = useState(location.state?.isLoginForm ?? true);
+  const { login, register, error } = useAuth();
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = async (data) => {
-    // Add your login API call here
-    window.location.href = "/dashboard";
+  useEffect(() => {
+    if (location.state?.isLoginForm !== undefined) {
+      setIsLoginForm(location.state.isLoginForm);
+    }
+  }, [location.state]);
+
+  const handleLogin = async (credentials) => {
+    setLoading(true);
+    try {
+      await login(credentials);
+    }
+    catch (error) {
+      console.error("Login error:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleRegister = async (data) => {
-    // Add your registration API call here
-    window.location.href = "/dashboard";
+  const handleRegister = async (userData) => {
+    setLoading(true);
+    try {
+      await register(userData);
+    }
+    catch (error) {
+      console.error("Registration error:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -39,11 +64,16 @@ const AuthContainer = () => {
             style={{ left: isLoginForm ? "0" : "178px" }}
           />
         </nav>
+        
+        {error && <div className={styles.errorMessage}>{error}</div>}
+        
         {isLoginForm ? (
           <LoginForm onSubmit={handleLogin} />
         ) : (
           <RegisterForm onSubmit={handleRegister} />
         )}
+
+        {loading && <div className={styles.loadingSpinner}>Loading...</div>}
       </section>
     </main>
   );
