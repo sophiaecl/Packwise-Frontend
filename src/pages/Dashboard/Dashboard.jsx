@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./Dashboard.module.css";
-import Header from "../../components/Dashboard/Header/Header";
+import Header from "../../components/Header/Header";
 import StatsCard from "../../components/Dashboard/StatsCard/StatsCard";
 import TripsSection from "../../components/Dashboard/TripsSection/TripsSection";
 import NotificationsSection from "../../components/Dashboard/NotificationsSection/NotificationsSection";
