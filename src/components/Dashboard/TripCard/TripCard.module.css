@@ -4,6 +4,7 @@
     border-radius: 4px;
     margin-bottom: 16px;
     padding: 16px;
+    transition: box-shadow 0.2s ease;
   }
   
   .tripInfo {
@@ -43,6 +44,13 @@
     font-size: 15px;
     line-height: 21px;
     display: inline-block;
+    color: #a8707d;
+  }
+  
+  .cardLink:visited .tripStatus,
+  .cardLink:hover .tripStatus,
+  .cardLink:active .tripStatus {
+    color: #a8707d;
   }
   
   .progressContainer {
@@ -83,6 +91,20 @@
   
   .progressValueCompleted {
     composes: progressValue;
+  }
+  
+  .cardLink {
+    text-decoration: none;
+    display: block;
+    transition: transform 0.2s ease;
+  }
+  
+  .cardLink:hover {
+    transform: translateY(-2px);
+  }
+  
+  .cardLink:hover .tripCard {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
   
   @media (width <= 640px) {

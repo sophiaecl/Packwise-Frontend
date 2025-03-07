@@ -1,35 +1,36 @@
 .statCard {
-    background-color: #e7c2cb;
-    border: 1px solid #a8707d;
-    border-radius: 8px;
-    width: 392px;
-    height: 130px;
-    padding: 25px;
-    box-shadow: 0 1px 3px #0000001a;
+  background-color: #e7c2cb;
+  border: 1px solid #a8707d;
+  border-radius: 8px;
+  width: 392px;
+  height: 70px; /* Further reduced height */
+  padding: 0 25px; /* Removed vertical padding completely */
+  box-shadow: 0 1px 3px #0000001a;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Vertically centers the content */
+  position: relative; /* For absolute positioning if needed */
+}
+
+.statTitle {
+  color: #a8707d;
+  margin: 0 0 1px 0; /* Minimal margin */
+  font-family: Sunflare, sans-serif;
+  font-size: 18px; /* Further reduced */
+  line-height: 1;
+}
+
+.statValue {
+  color: #455e46;
+  font-family: Playfair Display, serif;
+  font-size: 30px; /* Further reduced */
+  font-weight: 900;
+  line-height: 1;
+  margin: 0;
+}
+
+@media (width <= 991px) {
+  .statCard {
+    width: 100%;
   }
-  
-  .statTitle {
-    color: #a8707d;
-    margin-bottom: 8px;
-    font-family: Sunflare, sans-serif;
-    font-size: 28px;
-    line-height: 24px;
-  }
-  
-  .statValue {
-    color: #455e46;
-    font-family:
-      Playfair Display,
-      serif;
-    font-size: 36px;
-    font-weight: 900;
-    line-height: 48px;
-    margin: 0;
-  }
-  
-  @media (width <= 991px) {
-    .statCard {
-      width: 100%;
-    }
-  }
-  
+}

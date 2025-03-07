@@ -2,6 +2,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import LandingPage from './pages/LandingPage/LandingPage'
 import Dashboard from './pages/Dashboard/Dashboard'
+import TripPage from './pages/TripPage/TripPage'
 import InputDesign from './components/AuthForms/InputDesign'
 import { AuthProvider, useAuth } from './context/auth-context'
 
@@ -32,6 +33,14 @@ function AppWithProvider() {
           element={
             <ProtectedRoute>
               <Dashboard />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/trip/:tripId" 
+          element={
+            <ProtectedRoute>
+              <TripPage />
             </ProtectedRoute>
           } 
         />
