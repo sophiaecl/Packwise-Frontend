@@ -1,0 +1,124 @@
+.searchAndFilters {
+  margin-bottom: 24px;
+}
+
+.searchContainer {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.searchInput {
+  flex: 1;
+  padding: 8px 16px;
+  border: 1px solid #a8707d;
+  border-radius: 4px;
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  color: #455e46;
+  background-color: #fff;
+}
+
+.searchInput::placeholder {
+  color: #a8707d;
+  opacity: 0.7;
+}
+
+.filterButton {
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: #f0e7dd;
+  border: 1px solid #a8707d;
+  color: #a8707d;
+}
+
+.filterButton:hover {
+  background-color: #e7c2cb;
+  color: #455e46;
+}
+
+.filtersContainer {
+  background-color: #fff;
+  border: 1px solid #a8707d;
+  border-radius: 4px;
+  padding: 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.filterHeader {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.filterHeader h3 {
+  color: #455e46;
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  margin: 0;
+}
+
+.clearButton {
+  padding: 4px 12px;
+  background-color: transparent;
+  border: 1px solid #a8707d;
+  border-radius: 4px;
+  color: #a8707d;
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.clearButton:hover {
+  background-color: #fff0f3;
+  color: #455e46;
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.filterGroup label {
+  color: #455e46;
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+}
+
+.filterInput {
+  padding: 8px;
+  border: 1px solid #a8707d;
+  border-radius: 4px;
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+  color: #455e46;
+}
+
+.filterInput::placeholder {
+  color: #a8707d;
+  opacity: 0.7;
+}
+
+@media (width <= 640px) {
+  .filtersContainer {
+    grid-template-columns: 1fr;
+  }
+  
+  .searchContainer {
+    flex-direction: column;
+  }
+  
+  .filterButton {
+    width: 100%;
+  }
+} 
