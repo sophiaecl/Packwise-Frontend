@@ -10,6 +10,7 @@ const TripPage = () => {
   const { tripId } = useParams(); // Get the tripId from URL parameters
   const [activeTab, setActiveTab] = useState("Trip Info");
   const [tripData, setTripData] = useState(null);
+  const [weatherData, setWeatherData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -27,7 +28,9 @@ const TripPage = () => {
       try {
         setLoading(true);
         const data = await tripService.getTrip(tripId);
+        const weatherData = await tripService.getTripWeather(tripId);
         setTripData(data.data);
+        setWeatherData(weatherData.data);
         setError(null);
       } catch (err) {
         console.error("Error fetching trip data:", err);
@@ -86,7 +89,7 @@ const TripPage = () => {
                 activeTab={activeTab}
                 onTabChange={setActiveTab}
               />
-              <ContentPanel activeTab={activeTab} tripData={tripData} />
+              <ContentPanel activeTab={activeTab} tripData={tripData} weatherData={weatherData} />
             </>
           ) : (
             <div className={styles.errorContainer}>

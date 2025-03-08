@@ -103,12 +103,15 @@
   @media (width<=991px) {
     .tabs {
       flex-wrap: wrap;
+      gap: 4px;
     }
   }
   
   @media (width<=640px) {
     .tabs {
-      display: none;
+      flex-direction: column;
+      margin-bottom: 15px;
+      gap: 4px;
     }
   }
   
@@ -131,6 +134,15 @@
     }
   }
   
+  @media (width<=640px) {
+    .tabactive {
+      border-radius: 8px;
+      padding: 12px 20px;
+      font-size: 18px;
+      min-width: unset;
+    }
+  }
+  
   .tab {
     color: #f0e7dd;
     cursor: pointer;
@@ -147,6 +159,15 @@
       text-align: center;
       flex: 1;
       min-width: 150px;
+    }
+  }
+  
+  @media (width<=640px) {
+    .tab {
+      border-radius: 8px;
+      padding: 12px 20px;
+      font-size: 18px;
+      min-width: unset;
     }
   }
   
@@ -283,3 +304,60 @@
       font-size: 14px;
     }
   }
+
+  .weatherDetails {
+    padding: 0 0 30px;
+  }
+  
+  .metricsGrid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    color: #f0e7dd;
+    justify-content: center;
+  }
+  
+  .metric {
+    background-color: #68876a;
+    border: 1px solid #4e6c50;
+    border-radius: 100px;
+    padding: 6px 30px 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .metricTitle {
+    font-family:
+      Sunflare,
+      -apple-system,
+      Roboto,
+      Helvetica,
+      sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1;
+    margin: 0;
+  }
+  
+  .metricValue {
+    margin: 8px 0 0;
+    font-family:
+      "Playfair Display",
+      -apple-system,
+      Roboto,
+      Helvetica,
+      sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1;
+  }
+  
+  @media (width <= 991px) {
+    .metric {
+      padding-left: 15px;
+      padding-right: 15px;
+      white-space: initial;
+    }
+  }
+  

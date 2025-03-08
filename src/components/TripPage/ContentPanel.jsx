@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "../../pages/TripPage/TripPage.module.css";
 
-function ContentPanel({ activeTab, tripData }) {
+function ContentPanel({ activeTab, tripData, weatherData }) {
   const [isEditing, setIsEditing] = useState(false);
 
   // Format date for display
@@ -51,10 +51,35 @@ function ContentPanel({ activeTab, tripData }) {
         );
       case "Trip Weather":
         return (
-          <div className={styles.detailsCard}>
-            <p>Weather information will be displayed here.</p>
-            {/* Weather data would be fetched and displayed here */}
-          </div>
+          <>
+            <section className={styles.weatherDetails}>
+              <div className={styles.metricsGrid}>
+                <article className={styles.metric}>
+                  <h3 className={styles.metricTitle}>Max Temp</h3>
+                  <p className={styles.metricValue}>{weatherData?.max_temp || "N/A"}°C</p>
+                </article>
+                <article className={styles.metric}>
+                  <h3 className={styles.metricTitle}>Min Temp</h3>
+                  <p className={styles.metricValue}>{weatherData?.min_temp || "N/A"}°C</p>
+                </article>
+                <article className={styles.metric}>
+                  <h3 className={styles.metricTitle}>UV</h3>
+                  <p className={styles.metricValue}>{weatherData?.uv || "N/A"}</p>
+                </article>
+                <article className={styles.metric}>
+                  <h3 className={styles.metricTitle}>Description</h3>
+                  <p className={styles.metricValue}>{weatherData?.description || "N/A"}</p>
+                </article>
+                <article className={styles.metric}>
+                  <h3 className={styles.metricTitle}>Confidence</h3>
+                  <p className={styles.metricValue}>{weatherData?.confidence ? Math.round(weatherData.confidence * 100) : "N/A"}%</p>
+                </article>
+              </div>
+            </section>
+            <div className={styles.detailsCard}>
+              <p>Detailed weather information will be displayed here.</p>
+            </div>
+          </>
         );
       case "Packing Lists":
         return (
@@ -86,12 +111,14 @@ function ContentPanel({ activeTab, tripData }) {
     <section className={styles.contentPanel} role="tabpanel">
       <div className={styles.panelHeader}>
         <h2 className={styles.panelTitle}>{activeTab}</h2>
-        <button 
-          className={styles.updateButton}
-          onClick={() => setIsEditing(!isEditing)}
-        >
-          {isEditing ? "save" : "update"}
-        </button>
+        {activeTab === "Trip Info" && (
+          <button 
+            className={styles.updateButton}
+            onClick={() => setIsEditing(!isEditing)}
+          >
+            {isEditing ? "save" : "update"}
+          </button>
+        )}
       </div>
       {renderContent()}
     </section>

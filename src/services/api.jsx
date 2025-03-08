@@ -79,6 +79,7 @@ export const authService = {
 // Trip services
 export const tripService = {
   getTrips: () => api.get('/trips'),
+  getTripWeather: (tripId) => api.get(`/trips/weather/${tripId}`),
   createTrip: (tripData) => api.post('/trips', tripData),
   getTrip: (tripId) => api.get(`/trips/${tripId}`),
   updateTrip: (tripId, tripData) => api.put(`/trips/${tripId}`, tripData),
