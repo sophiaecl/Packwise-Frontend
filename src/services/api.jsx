@@ -95,16 +95,12 @@ export const dashboardService = {
 export const packingService = {
   // Get all packing lists for a trip
   getPackingLists: (tripId) => api.get(`/packing/lists/${tripId}`),
-  
   // Get a specific packing list by its ID - using query parameter
   getPackingList: (listId) => api.get(`/packing/${listId}`, { params: { list_id: listId } }),
-  
   // Generate a new packing list for a trip
   createPackingList: (tripId) => api.post(`/packing/generate/${tripId}`),
-  
   // Update an existing packing list
   updatePackingList: (listId, listData) => api.put(`/packing/${listId}`, listData, { params: { list_id: listId } }),
-  
   // Delete a packing list
   deletePackingList: (listId) => api.delete(`/packing/${listId}`, { params: { list_id: listId } })
 };
