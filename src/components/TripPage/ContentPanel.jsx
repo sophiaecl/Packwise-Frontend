@@ -3,6 +3,14 @@ import styles from "../../pages/TripPage/TripPage.module.css";
 
 function ContentPanel({ activeTab, tripData, weatherData }) {
   const [isEditing, setIsEditing] = useState(false);
+  const [expandedLists, setExpandedLists] = useState({});
+
+  const toggleList = (listId) => {
+    setExpandedLists(prev => ({
+      ...prev,
+      [listId]: !prev[listId]
+    }));
+  };
 
   // Format date for display
   const formatDate = (dateString) => {
@@ -83,9 +91,29 @@ function ContentPanel({ activeTab, tripData, weatherData }) {
         );
       case "Packing Lists":
         return (
-          <div className={styles.detailsCard}>
-            <p>Packing lists will be displayed here.</p>
-            {/* Packing lists would be fetched and displayed here */}
+          <div className={styles.packingListContainer}>
+            <div className={styles.packingLists}>
+              <div className={styles.packingListCard}>
+                <div className={styles.packingListTitle} onClick={() => toggleList(1)}>
+                  <h3>Packing List 1</h3>
+                  <span className={styles.dropdownArrow}>▼</span>
+                </div>
+                {/* List content would go here */}
+              </div>
+
+              <div className={styles.packingListCard}>
+                <div className={styles.packingListTitle} onClick={() => toggleList(2)}>
+                  <h3>Packing List 2</h3>
+                  <span className={styles.dropdownArrow}>▼</span>
+                </div>
+                {/* List content would go here */}
+              </div>
+
+              <div className={styles.recommendationsCard}>
+                <h3>User Recommendations</h3>
+                {/* Recommendations content would go here */}
+              </div>
+            </div>
           </div>
         );
       case "Activities":
@@ -116,9 +144,13 @@ function ContentPanel({ activeTab, tripData, weatherData }) {
             className={styles.updateButton}
             onClick={() => setIsEditing(!isEditing)}
           >
-            {isEditing ? "save" : "update"}
+            {isEditing ? "Save" : "Update"}
           </button>
         )}
+        {activeTab == "Packing Lists" && (
+          <button className={styles.createListButton}>Create List</button>
+        )
+        }
       </div>
       {renderContent()}
     </section>

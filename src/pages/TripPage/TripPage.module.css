@@ -204,16 +204,20 @@
     color: #f0e7dd;
     cursor: pointer;
     background-color: #68876a;
-    border: 1px solid #455e46;
-    border-radius: 100px;
+    border: none;
+    border-radius: 5px;
     padding: 8px 25px;
     font-family:
       Playfair Display,
       serif;
-    font-size: 24px;
+    font-size: 16px;
     font-weight: 700;
   }
   
+  .updateButton:hover {
+    background-color: #7c9a83;
+  }
+
   @media (width<=640px) {
     .updateButton {
       text-align: center;
@@ -223,7 +227,6 @@
   
   .detailsCard {
     background-color: #fff;
-    border: 1px solid #4e6c50;
     border-radius: 25px;
     padding: 30px;
   }
@@ -359,5 +362,85 @@
       padding-right: 15px;
       white-space: initial;
     }
+  }
+
+  .packingListContainer {
+    padding: 20px;
+    background-color: #f8e6e6;
+    border-radius: 10px;
+    min-height: 500px;
+  }
+  
+  .packingListHeader {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+  }
+  
+  .createListButton {
+    background-color: #68876a;
+    font-family: Playfair Display, sans-serif;
+    color: #f0e7dd;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s;
+  }
+  
+  .createListButton:hover {
+    background-color: #7c9a83;
+  }
+  
+  .packingLists {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .packingListCard {
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .packingListTitle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: white;
+    cursor: pointer;
+  }
+  
+  .packingListTitle h3 {
+    color: #7c9a83;
+    margin: 0;
+    font-size: 1.2rem;
+  }
+  
+  .dropdownArrow {
+    color: #a8707d;
+    transition: transform 0.3s ease;
+  }
+  
+  .packingListTitle[data-expanded="true"] .dropdownArrow {
+    transform: rotate(180deg);
+  }
+  
+  .recommendationsCard {
+    background-color: #7c9a83;
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+  }
+  
+  .recommendationsCard h3 {
+    margin: 0;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
   }
   
