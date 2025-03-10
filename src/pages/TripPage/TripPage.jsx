@@ -4,13 +4,14 @@ import styles from "./TripPage.module.css";
 import Header from "../../components/Header/Header";
 import TabNavigation from "../../components/TripPage/TabNavigation";
 import ContentPanel from "../../components/TripPage/ContentPanel";
-import { tripService } from "../../services/api";
+import { tripService, packingService } from "../../services/api";
 
 const TripPage = () => {
   const { tripId } = useParams(); // Get the tripId from URL parameters
   const [activeTab, setActiveTab] = useState("Trip Info");
   const [tripData, setTripData] = useState(null);
   const [weatherData, setWeatherData] = useState(null);
+  const [packingLists, setPackingLists] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -27,10 +28,50 @@ const TripPage = () => {
     const fetchTripData = async () => {
       try {
         setLoading(true);
-        const data = await tripService.getTrip(tripId);
-        const weatherData = await tripService.getTripWeather(tripId);
-        setTripData(data.data);
-        setWeatherData(weatherData.data);
+        
+        // Fetch trip data
+        const tripResponse = await tripService.getTrip(tripId);
+        setTripData(tripResponse.data);
+        
+        // Fetch weather data
+        const weatherResponse = await tripService.getTripWeather(tripId);
+        setWeatherData(weatherResponse.data);
+        
+        // Attempt to fetch packing lists if they exist
+        try {
+          const packingListsResponse = await packingService.getPackingLists(tripId);
+          
+          if (packingListsResponse.data && 
+              packingListsResponse.data.packing_lists && 
+              packingListsResponse.data.packing_lists.length > 0) {
+            
+            // Process each packing list one by one
+            const listsData = [];
+            
+            for (const item of packingListsResponse.data.packing_lists) {
+              try {
+                const listResponse = await packingService.getPackingList(item.list_id);
+                if (listResponse.data && listResponse.data.packing_list) {
+                  // If the backend sends a JSON string, parse it
+                  const packingListData = typeof listResponse.data.packing_list === 'string' 
+                    ? JSON.parse(listResponse.data.packing_list)
+                    : listResponse.data.packing_list;
+                    
+                  listsData.push(packingListData);
+                }
+              } catch (listError) {
+                console.warn(`Error fetching packing list ${item.list_id}:`, listError);
+                // Continue with other lists even if one fails
+              }
+            }
+            
+            setPackingLists(listsData);
+          }
+        } catch (packingError) {
+          console.warn("Error fetching packing lists:", packingError);
+          // This is non-fatal, we'll just show empty packing lists
+        }
+        
         setError(null);
       } catch (err) {
         console.error("Error fetching trip data:", err);
@@ -89,7 +130,12 @@ const TripPage = () => {
                 activeTab={activeTab}
                 onTabChange={setActiveTab}
               />
-              <ContentPanel activeTab={activeTab} tripData={tripData} weatherData={weatherData} />
+              <ContentPanel 
+                activeTab={activeTab} 
+                tripData={tripData} 
+                weatherData={weatherData} 
+                packingLists={packingLists} 
+              />
             </>
           ) : (
             <div className={styles.errorContainer}>
