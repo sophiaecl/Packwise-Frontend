@@ -1,0 +1,222 @@
+.app {
+    background-color: #f0e7dd;
+    width: 100%;
+    min-height: 100vh;
+  }
+  
+  .mainContent {
+    padding: 40px 60px;
+  }
+  
+  @media (width<=991px) {
+    .mainContent {
+      padding: 20px;
+    }
+  }
+  
+  .title {
+    color: #455e46;
+    margin-bottom: 30px;
+    font-family: Michelia, sans-serif;
+    font-size: 64px;
+  }
+  
+  @media (width<=991px) {
+    .title {
+      font-size: 48px;
+    }
+  }
+  
+  @media (width<=640px) {
+    .title {
+      font-size: 36px;
+    }
+  }
+  
+  .returnButton {
+    color: #a8707d;
+    cursor: pointer;
+    font-family: Playfair Display, serif;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+    background: none;
+    border: none;
+  }
+  
+  .returnButton:hover {
+    color: #8f5c68;
+  }
+  
+  .profileContainer {
+    background-color: #e7c2cb;
+    border: 1px solid #a8707d;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 1px 3px #0000001a;
+  }
+  
+  .profileHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+  
+  .sectionTitle {
+    color: #455e46;
+    font-family: Sunflare, sans-serif;
+    font-size: 36px;
+    margin: 0;
+  }
+  
+  .editButton, .saveButton {
+    color: #f0e7dd;
+    cursor: pointer;
+    background-color: #68876a;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 25px;
+    font-family: Playfair Display, serif;
+    font-size: 16px;
+    font-weight: 700;
+  }
+  
+  .editButton:hover, .saveButton:hover {
+    background-color: #7c9a83;
+  }
+  
+  .cancelButton {
+    color: #455e46;
+    cursor: pointer;
+    background-color: #f0e7dd;
+    border: 1px solid #a8707d;
+    border-radius: 5px;
+    padding: 8px 25px;
+    font-family: Playfair Display, serif;
+    font-size: 16px;
+    font-weight: 700;
+    margin-left: 15px;
+  }
+  
+  .cancelButton:hover {
+    background-color: #e7e0d8;
+  }
+  
+  .profileDetails {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 30px;
+  }
+  
+  .detailItem {
+    display: flex;
+    margin-bottom: 20px;
+    color: #455e46;
+    font-family: Playfair Display, serif;
+    font-size: 20px;
+  }
+  
+  .detailItem:last-child {
+    margin-bottom: 0;
+  }
+  
+  .detailLabel {
+    width: 100px;
+    font-weight: 700;
+    color: #a8707d;
+  }
+  
+  .formGroup {
+    margin-bottom: 25px;
+  }
+  
+  .label {
+    color: #354935;
+    margin-bottom: 9px;
+    font-family: "Playfair Display", serif;
+    font-size: 16px;
+    line-height: 24px;
+    display: block;
+  }
+  
+  .inputField {
+    border: 1px solid #a8707d;
+    border-radius: 4px;
+    width: 100%;
+    height: 50px;
+    padding: 0 16px;
+    font-size: 16px;
+  }
+  
+  .select {
+    background-color: #fff;
+    border: 1px solid #a8707d;
+    border-radius: 4px;
+    width: 100%;
+    height: 50px;
+    padding: 0 16px;
+    font-size: 16px;
+  }
+  
+  .formActions {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 30px;
+  }
+  
+  .loadingContainer, .errorContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 300px;
+    color: #455e46;
+    font-family: "Playfair Display", serif;
+    font-size: 18px;
+  }
+  
+  .errorContainer {
+    color: #a8707d;
+  }
+  
+  .successMessage {
+    background-color: #e0f0e3;
+    color: #455e46;
+    border: 1px solid #68876a;
+    border-radius: 4px;
+    padding: 10px 16px;
+    margin-bottom: 16px;
+    font-family: "Playfair Display", serif;
+  }
+  
+  @media (width <= 640px) {
+    .profileHeader {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 15px;
+    }
+  
+    .editButton, .saveButton, .cancelButton {
+      width: 100%;
+      margin-left: 0;
+    }
+  
+    .formActions {
+      flex-direction: column;
+      gap: 10px;
+    }
+  
+    .detailItem {
+      flex-direction: column;
+      margin-bottom: 15px;
+    }
+  
+    .detailLabel {
+      width: auto;
+      margin-bottom: 5px;
+    }
+  }

@@ -39,10 +39,10 @@ function Header() {
     <header className={styles.header}>
       <h1 className={styles.logo}>PackWise</h1>
       <div className={styles.profileContainer} ref={dropdownRef}>
-        <div 
-          className={styles.profileImage} 
-          role="img" 
-          aria-label="Profile"
+        <img 
+          src="../../../public/profile.svg" 
+          alt="Profile" 
+          className={styles.profileImage}
           onClick={handleProfileClick}
         />
         {isDropdownOpen && (

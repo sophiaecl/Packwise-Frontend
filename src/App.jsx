@@ -5,6 +5,7 @@ import Dashboard from './pages/Dashboard/Dashboard'
 import TripPage from './pages/TripPage/TripPage'
 import InputDesign from './components/AuthForms/InputDesign'
 import CreateTripPage from './pages/CreateTripPage/CreateTripPage'
+import ProfilePage from './pages/ProfilePage/ProfilePage'
 import { AuthProvider, useAuth } from './context/auth-context'
 
 // Protected route component
@@ -50,6 +51,14 @@ function AppWithProvider() {
           element={
             <ProtectedRoute>
               <CreateTripPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route 
+          path="/profile" 
+          element={
+            <ProtectedRoute>
+              <ProfilePage />
             </ProtectedRoute>
           }
         />
