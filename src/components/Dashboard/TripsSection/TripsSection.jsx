@@ -2,11 +2,13 @@ import { useState, useEffect } from "react";
 import styles from "./TripsSection.module.css";
 import TripCard from "../TripCard/TripCard";
 import SearchAndFilters from "./SearchAndFilters";
+import { useNavigate } from "react-router-dom";
 
 function TripsSection({ trips: initialTrips = [], loading: initialLoading = false }) {
   const [trips, setTrips] = useState(initialTrips);
   const [filteredTrips, setFilteredTrips] = useState(initialTrips);
   const [loading, setLoading] = useState(initialLoading);
+  const navigate = useNavigate();
 
   // Update local state when props change
   useEffect(() => {
@@ -113,7 +115,7 @@ function TripsSection({ trips: initialTrips = [], loading: initialLoading = fals
     <section className={styles.tripsSection}>
       <div className={styles.tripsHeader}>
         <h2 className={styles.tripsTitle}>Your Trips</h2>
-        <button className={styles.newTripButton}>New Trip</button>
+        <button className={styles.newTripButton} onClick={() => navigate('/create-trip')}>New Trip</button>
       </div>
 
       <SearchAndFilters onSearch={handleSearch} onFilter={handleFilter} />
