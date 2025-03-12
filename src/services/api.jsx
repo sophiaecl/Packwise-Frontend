@@ -107,7 +107,9 @@ export const packingService = {
 
 // Profile services
 export const profileService = {
+  // Get profile information
   getProfile: () => api.get('/auth/profile'),
+  // Update profile information
   updateProfile: (profileData) => api.put('/auth/profile', profileData)
 }
 ;
