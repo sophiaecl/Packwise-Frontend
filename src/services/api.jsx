@@ -1,7 +1,7 @@
 // src/services/api.js
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8000';
+const API_URL = ['http://localhost:8000', 'https://packwise-backend-jk6n3yy7fa-no.a.run.app'];
 
 // Create axios instance with base URL
 const api = axios.create({
