@@ -103,6 +103,13 @@ export const packingService = {
   updatePackingList: (listId, listData) => api.put(`/packing/${listId}`, listData, { params: { list_id: listId } }),
   // Delete a packing list
   deletePackingList: (listId) => api.delete(`/packing/${listId}`, { params: { list_id: listId } })
-};
+}
+
+// Profile services
+export const profileService = {
+  getProfile: () => api.get('/auth/profile'),
+  updateProfile: (profileData) => api.put('/auth/profile', profileData)
+}
+;
 
 export default api;
