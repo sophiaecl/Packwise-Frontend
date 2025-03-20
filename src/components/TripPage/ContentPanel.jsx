@@ -1,13 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../../pages/TripPage/TripPage.module.css";
 import { packingService } from "../../services/api";
+import InteractivePackingList from "./PackingList";
+import HistoricalWeatherVisualization from './WeatherVisualization';
 
-function ContentPanel({ activeTab, tripData, weatherData, packingLists = [] }) {
+function ContentPanel({ activeTab, tripData, weatherData, packingLists, historicalData = [] }) {
   const [isEditing, setIsEditing] = useState(false);
   const [expandedLists, setExpandedLists] = useState({});
-  const [expandedCategories, setExpandedCategories] = useState({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [currentPackingLists, setCurrentPackingLists] = useState(packingLists);
+  const [packingListIds, setPackingListIds] = useState([]);
+  
+  // Update local state when prop changes
+  useEffect(() => {
+    setCurrentPackingLists(packingLists);
+  }, [packingLists]);
+  
+  // Fetch packing list IDs when tripData is available
+  useEffect(() => {
+    if (tripData?.trip_id) {
+      const fetchPackingListIds = async () => {
+        try {
+          const response = await packingService.getPackingLists(tripData.trip_id);
+          if (response.data && response.data.packing_lists) {
+            setPackingListIds(response.data.packing_lists.map(list => list.list_id));
+          }
+        } catch (err) {
+          console.error("Error fetching packing list IDs:", err);
+        }
+      };
+      
+      fetchPackingListIds();
+    }
+  }, [tripData]);
   
   // Toggle a packing list expansion
   const toggleList = (listId) => {
@@ -17,15 +43,6 @@ function ContentPanel({ activeTab, tripData, weatherData, packingLists = [] }) {
     }));
   };
   
-  // Toggle a category expansion within a packing list
-  const toggleCategory = (listId, categoryName) => {
-    const key = `${listId}-${categoryName}`;
-    setExpandedCategories(prev => ({
-      ...prev,
-      [key]: !prev[key]
-    }));
-  };
-
   // Format date for display
   const formatDate = (dateString) => {
     if (!dateString) return "";
@@ -44,9 +61,36 @@ function ContentPanel({ activeTab, tripData, weatherData, packingLists = [] }) {
     try {
       setLoading(true);
       setError(null);
-      await packingService.createPackingList(tripData.trip_id);
-      // Reload the page to fetch the new list
-      window.location.reload();
+      const response = await packingService.createPackingList(tripData.trip_id);
+      
+      // Parse the packing list if it's a string
+      let newPackingList;
+      if (typeof response.data.packing_list === 'string') {
+        try {
+          newPackingList = JSON.parse(response.data.packing_list);
+        } catch (e) {
+          console.error("Error parsing packing list JSON:", e);
+          newPackingList = { categories: [], total_items: 0 };
+        }
+      } else {
+        newPackingList = response.data.packing_list;
+      }
+      
+      // Add the new list to our current lists
+      const updatedLists = [...currentPackingLists, newPackingList];
+      setCurrentPackingLists(updatedLists);
+      
+      // Add the new list ID to our IDs
+      if (response.data.packing_list_id) {
+        setPackingListIds(prev => [...prev, response.data.packing_list_id]);
+      }
+      
+      // Automatically expand the new list
+      setExpandedLists(prev => ({
+        ...prev,
+        [updatedLists.length - 1]: true
+      }));
+      
     } catch (err) {
       console.error("Error creating packing list:", err);
       setError("Failed to create packing list. Please try again.");
@@ -55,10 +99,17 @@ function ContentPanel({ activeTab, tripData, weatherData, packingLists = [] }) {
     }
   };
 
+  // Handle updates to packing lists
+  const handlePackingListUpdate = (listIndex, updatedList) => {
+    const newLists = [...currentPackingLists];
+    newLists[listIndex] = updatedList;
+    setCurrentPackingLists(newLists);
+  };
+
   // Extract all packing tips from all packing lists
   const getAllPackingTips = () => {
     const allTips = [];
-    packingLists.forEach(list => {
+    currentPackingLists.forEach(list => {
       if (list && list.packing_tips && Array.isArray(list.packing_tips)) {
         list.packing_tips.forEach(tip => {
           if (!allTips.includes(tip)) {
@@ -73,7 +124,7 @@ function ContentPanel({ activeTab, tripData, weatherData, packingLists = [] }) {
   // Extract all recommended activities from all packing lists
   const getAllRecommendedActivities = () => {
     const allActivities = [];
-    packingLists.forEach(list => {
+    currentPackingLists.forEach(list => {
       if (list && list.recommended_activities && Array.isArray(list.recommended_activities)) {
         list.recommended_activities.forEach(activity => {
           if (!allActivities.includes(activity)) {
@@ -87,7 +138,7 @@ function ContentPanel({ activeTab, tripData, weatherData, packingLists = [] }) {
 
   // Render packing lists UI
   const renderPackingLists = () => {
-    if (!packingLists || packingLists.length === 0) {
+    if (!currentPackingLists || currentPackingLists.length === 0) {
       return (
         <div className={styles.emptyState}>
           <p>No packing lists found for this trip.</p>
@@ -104,9 +155,11 @@ function ContentPanel({ activeTab, tripData, weatherData, packingLists = [] }) {
 
     return (
       <div className={styles.packingLists}>
-        {packingLists.map((packingList, listIndex) => {
+        {currentPackingLists.map((packingList, listIndex) => {
           // Check if packingList has the expected structure
-          const categories = packingList?.categories || [];
+          if (!packingList || !packingList.categories) {
+            return <div key={listIndex}>Invalid packing list data</div>;
+          }
           
           return (
             <div key={listIndex} className={styles.packingListCard}>
@@ -122,43 +175,11 @@ function ContentPanel({ activeTab, tripData, weatherData, packingLists = [] }) {
               
               {expandedLists[listIndex] && (
                 <div className={styles.packingListContent}>
-                  {categories.map((category, catIndex) => (
-                    <div key={catIndex} className={styles.packingCategory}>
-                      <div 
-                        className={styles.categoryHeader}
-                        onClick={() => toggleCategory(listIndex, category.category_name)}
-                      >
-                        <h4>{category.category_name}</h4>
-                        <span className={styles.itemCount}>{category.items?.length || 0} items</span>
-                        <span className={styles.toggleIcon}>
-                          {expandedCategories[`${listIndex}-${category.category_name}`] ? "▲" : "▼"}
-                        </span>
-                      </div>
-                      
-                      {expandedCategories[`${listIndex}-${category.category_name}`] && (
-                        <ul className={styles.itemsList}>
-                          {category.items?.map((item, itemIndex) => (
-                            <li key={itemIndex} className={styles.packingItem}>
-                              <div className={styles.itemDetails}>
-                                <div className={styles.itemName}>
-                                  <span className={styles.itemNameText}>{item.name}</span>
-                                  {item.essential && (
-                                    <span className={styles.essentialTag}>Essential</span>
-                                  )}
-                                </div>
-                                <div className={styles.itemQuantity}>
-                                  <span>Qty: {item.quantity}</span>
-                                </div>
-                              </div>
-                              {item.notes && (
-                                <div className={styles.itemNotes}>{item.notes}</div>
-                              )}
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </div>
-                  ))}
+                  <InteractivePackingList 
+                    packingListData={packingList} 
+                    listId={packingListIds[listIndex] || `temp-list-${listIndex}`} 
+                    onUpdate={(updatedList) => handlePackingListUpdate(listIndex, updatedList)}
+                  />
                 </div>
               )}
             </div>
@@ -230,7 +251,11 @@ function ContentPanel({ activeTab, tripData, weatherData, packingLists = [] }) {
               </div>
             </section>
             <div className={styles.detailsCard}>
-              <p>Detailed weather information will be displayed here.</p>
+              {historicalData ? (
+                <HistoricalWeatherVisualization historicalData={historicalData} />
+              ) : (
+                <p>Loading historical weather data...</p>
+              )}
             </div>
           </>
         );
