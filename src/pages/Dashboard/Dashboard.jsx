@@ -5,7 +5,7 @@ import StatsCard from "../../components/Dashboard/StatsCard/StatsCard";
 import TripsSection from "../../components/Dashboard/TripsSection/TripsSection";
 import NotificationsSection from "../../components/Dashboard/NotificationsSection/NotificationsSection";
 import { useAuth } from "../../context/auth-context";
-import { dashboardService, tripService } from "../../services/api";
+import { dashboardService, packingService } from "../../services/api";
 
 function Dashboard() {
   const { currentUser } = useAuth();
@@ -24,7 +24,7 @@ function Dashboard() {
       try {
         setLoading(true);
         
-        // Fetch dashboard data from the backend using the dashboardService
+        // Fetch dashboard data from the backend
         const response = await dashboardService.getData();
 
         // Extract username from welcome message
@@ -42,10 +42,22 @@ function Dashboard() {
           return startDate > today;
         });
         
-        // Update stats based on the fetched trips
+        // Get average packing progress from the dedicated endpoint
+        let avgProgress = "0%";
+        try {
+          const progressResponse = await packingService.getOverallPackingProgress();
+          if (progressResponse.data && progressResponse.data.average_progress !== undefined) {
+            avgProgress = `${Math.round(progressResponse.data.average_progress)}%`;
+          }
+        } catch (error) {
+          console.error("Failed to fetch average packing progress:", error);
+          // Keep default 0% on error
+        }
+        
+        // Update stats
         setStats([
           { title: "Total Trips", value: response.data.trips.length.toString() },
-          { title: "Average Packing Progress", value: "0%" }, // This would need to be calculated if your API provides packing progress
+          { title: "Average Packing Progress", value: avgProgress },
           { title: "Upcoming Trips", value: upcomingTrips.length.toString() },
         ]);
         

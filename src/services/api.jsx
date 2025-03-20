@@ -1,7 +1,7 @@
 // src/services/api.js
 import axios from 'axios';
 
-const API_URL = ['http://localhost:8000', 'https://packwise-backend-jk6n3yy7fa-no.a.run.app', 'https://packwise-backend-580624387675.europe-southwest1.run.app'];
+const API_URL = 'http://localhost:8000';
 
 // Create axios instance with base URL
 const api = axios.create({
@@ -102,7 +102,11 @@ export const packingService = {
   // Update an existing packing list
   updatePackingList: (listId, listData) => api.put(`/packing/${listId}`, listData, { params: { list_id: listId } }),
   // Delete a packing list
-  deletePackingList: (listId) => api.delete(`/packing/${listId}`, { params: { list_id: listId } })
+  deletePackingList: (listId) => api.delete(`/packing/${listId}`, { params: { list_id: listId } }),
+  // Get packing progress for a trip
+  getTripPackingProgress: (tripId) => api.get(`/packing/progress/${tripId}`),
+  // Get overall packing progress
+  getOverallPackingProgress: () => api.get('/packing/progress/all')
 }
 
 // Profile services
