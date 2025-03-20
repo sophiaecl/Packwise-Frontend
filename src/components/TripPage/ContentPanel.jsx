@@ -3,6 +3,7 @@ import styles from "../../pages/TripPage/TripPage.module.css";
 import { packingService } from "../../services/api";
 import InteractivePackingList from "./PackingList";
 import HistoricalWeatherVisualization from './WeatherVisualization';
+import PackingRecommendations from "./PackingRecommendations";
 
 function ContentPanel({ activeTab, tripData, weatherData, packingLists, historicalData = [] }) {
   const [isEditing, setIsEditing] = useState(false);
@@ -161,6 +162,12 @@ function ContentPanel({ activeTab, tripData, weatherData, packingLists, historic
             return <div key={listIndex}>Invalid packing list data</div>;
           }
           
+          // Extract all item names to detect already packed items
+          const alreadyPackedItems = packingList.categories.reduce((items, category) => {
+            const categoryItems = category.items.map(item => item.name.toLowerCase());
+            return [...items, ...categoryItems];
+          }, []);
+
           return (
             <div key={listIndex} className={styles.packingListCard}>
               <div 
@@ -180,6 +187,67 @@ function ContentPanel({ activeTab, tripData, weatherData, packingLists, historic
                     listId={packingListIds[listIndex] || `temp-list-${listIndex}`} 
                     onUpdate={(updatedList) => handlePackingListUpdate(listIndex, updatedList)}
                   />
+                  {/* Add Recommendations Section */}
+                <div className={styles.recommendationsSection}>
+                  <h4 className={styles.recommendationsTitle}>
+                    Recommendations for You
+                  </h4>
+                  <PackingRecommendations 
+                    packingListId={packingListIds[listIndex]}
+                    addItemToPackingList={(newItem) => {
+                      // Create function to add item to the current packing list
+                      const updatedList = { ...packingList };
+                      
+                      // Find appropriate category or create "Other" category if needed
+                      let targetCategory = updatedList.categories.find(
+                        c => c.category_name.toLowerCase() === 'other'
+                      );
+                      
+                      if (!targetCategory) {
+                        // Try to guess better category based on item name
+                        const itemName = newItem.name.toLowerCase();
+                        
+                        if (itemName.includes('shirt') || itemName.includes('pants') || 
+                            itemName.includes('jacket') || itemName.includes('dress')) {
+                          targetCategory = updatedList.categories.find(
+                            c => c.category_name.toLowerCase() === 'clothing'
+                          );
+                        } else if (itemName.includes('charger') || itemName.includes('adapter') || 
+                                  itemName.includes('phone') || itemName.includes('camera')) {
+                          targetCategory = updatedList.categories.find(
+                            c => c.category_name.toLowerCase() === 'electronics'
+                          );
+                        } else if (itemName.includes('toothbrush') || itemName.includes('shampoo') || 
+                                  itemName.includes('soap') || itemName.includes('toiletry')) {
+                          targetCategory = updatedList.categories.find(
+                            c => c.category_name.toLowerCase() === 'toiletries'
+                          );
+                        }
+                      }
+                      
+                      // If still no matching category, create "Other" category
+                      if (!targetCategory) {
+                        targetCategory = {
+                          category_name: "Other",
+                          items: []
+                        };
+                        updatedList.categories.push(targetCategory);
+                      }
+                      
+                      // Add item to the category
+                      targetCategory.items.push(newItem);
+                      
+                      // Update total_items count
+                      updatedList.total_items = updatedList.categories.reduce(
+                        (total, cat) => total + cat.items.length, 0
+                      );
+                      
+                      // Update packing list
+                      handlePackingListUpdate(listIndex, updatedList);
+                    }}
+                    alreadyPackedItems={alreadyPackedItems}
+                    />
+                  </div>
                 </div>
               )}
             </div>
