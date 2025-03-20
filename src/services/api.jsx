@@ -83,7 +83,7 @@ export const tripService = {
   createTrip: (tripData) => api.post('/trips', tripData),
   getTrip: (tripId) => api.get(`/trips/${tripId}`),
   updateTrip: (tripId, tripData) => api.put(`/trips/${tripId}`, tripData),
-  deleteTrip: (tripId) => api.delete(`/trips/${tripId}`)
+  deleteTrip: (tripId) => api.delete(`/trips/delete/${tripId}`)
 };
 
 // Dashboard services

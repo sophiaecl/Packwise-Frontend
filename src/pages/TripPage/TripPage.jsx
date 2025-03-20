@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import styles from "./TripPage.module.css";
 import Header from "../../components/Header/Header";
 import TabNavigation from "../../components/TripPage/TabNavigation";
@@ -14,6 +14,11 @@ const TripPage = () => {
   const [packingLists, setPackingLists] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [deleteError, setDeleteError] = useState(null);
+
+  const navigate = useNavigate();
 
   const tabs = [
     "Trip Info",
@@ -97,6 +102,21 @@ const TripPage = () => {
     });
   };
 
+  const handleDeleteTrip = async () => {
+    try {
+      setDeleteLoading(true);
+      setDeleteError(null);
+
+      await tripService.deleteTrip(tripId);
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Failed to delete trip:", error);
+      setDeleteError("Failed to delete trip. Please try again later.");
+    } finally {
+      setDeleteLoading(false);
+    }
+  }
+
   return (
     <>
       <link
@@ -106,9 +126,12 @@ const TripPage = () => {
       <div className={styles.app}>
         <Header />
         <main className={styles.mainContent}>
-          <Link to="/dashboard" className={styles.returnButton}>
-            ← Return to Dashboard
-          </Link>
+          <div className={styles.pageHeader}>
+            <Link to="/dashboard" className={styles.returnButton}>
+              ← Return to Dashboard
+            </Link>
+            <button className={styles.deleteButton} onClick={() => setShowDeleteModal(true)}>Delete Trip</button>
+          </div>
           {loading ? (
             <div className={styles.loadingContainer}>
               <p>Loading trip details...</p>
@@ -144,6 +167,27 @@ const TripPage = () => {
           )}
         </main>
       </div>
+      {/* Delete Confirmation Modal */}
+      {showDeleteModal && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <h2 className={styles.modalTitle}>Delete Trip</h2>
+            <p className={styles.modalText}>
+              Are you sure you want to delete this trip to {tripData?.city}, {tripData?.country}?
+            </p>
+            <p className={styles.modalWarning}>
+              This will permanently delete all trip data, including packing lists and weather information.
+            </p>
+            {deleteError && <p className={styles.modalError}>{deleteError}</p>}
+            <div className={styles.modalButtons}>
+              <button className={styles.cancelButton} onClick={() => setShowDeleteModal(false)} disabled={deleteLoading}>Cancel</button>
+              <button className={styles.confirmDeleteButton} onClick={handleDeleteTrip} disabled={deleteLoading}>
+                {deleteLoading ? "Deleting..." : "Delete Trip"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
