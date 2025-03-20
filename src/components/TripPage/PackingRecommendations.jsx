@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { recommendationService } from "../../services/api";
-import styles from "../../pages/TripPage/TripPage.module.css";
+import styles from "./PackingRecommendations.module.css";
 
 const PackingRecommendations = ({ packingListId, addItemToPackingList, alreadyPackedItems = [] }) => {
   const [recommendations, setRecommendations] = useState(null);
