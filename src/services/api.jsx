@@ -115,6 +115,12 @@ export const profileService = {
   getProfile: () => api.get('/auth/profile'),
   updateProfile: (profileData) => api.put('/auth/profile', profileData)
 }
+
+// Recommendation services
+export const recommendationService = {
+  // Get recommendations for a specific packing list
+  getRecommendations: (packingListId, similarityThreshold = 0.7) => api.get(`/packing_recommendations/${packingListId}`, {params: { similarity_threshold: similarityThreshold }})
+}
 ;
 
 export default api;
