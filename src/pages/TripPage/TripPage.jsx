@@ -17,6 +17,7 @@ const TripPage = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [deleteError, setDeleteError] = useState(null);
+  const [historicalData, setHistoricalData] = useState(null);
 
   const navigate = useNavigate();
 
@@ -41,6 +42,17 @@ const TripPage = () => {
         // Fetch weather data
         const weatherResponse = await tripService.getTripWeather(tripId);
         setWeatherData(weatherResponse.data);
+
+        // Fetch historical weather data
+        try {
+          const historicalResponse = await tripService.getHistoricalWeather(tripId);
+          if (historicalResponse.data && historicalResponse.data.historical_data) {
+            setHistoricalData(historicalResponse.data.historical_data);
+          }
+        } catch (historicalError) {
+          console.warn("Error fetching historical weather data:", historicalError);
+          // Non-fatal error, continue without historical data
+        }
         
         // Attempt to fetch packing lists if they exist
         try {
@@ -156,7 +168,8 @@ const TripPage = () => {
               <ContentPanel 
                 activeTab={activeTab} 
                 tripData={tripData} 
-                weatherData={weatherData} 
+                weatherData={weatherData}
+                historicalData={historicalData} 
                 packingLists={packingLists} 
               />
             </>

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import styles from "../../pages/TripPage/TripPage.module.css";
 import { packingService } from "../../services/api";
+import HistoricalWeatherVisualization from "./WeatherVisualization";
 
-function ContentPanel({ activeTab, tripData, weatherData, packingLists = [] }) {
+function ContentPanel({ activeTab, tripData, weatherData, packingLists, historicalData = [] }) {
   const [isEditing, setIsEditing] = useState(false);
   const [expandedLists, setExpandedLists] = useState({});
   const [expandedCategories, setExpandedCategories] = useState({});
@@ -230,7 +231,11 @@ function ContentPanel({ activeTab, tripData, weatherData, packingLists = [] }) {
               </div>
             </section>
             <div className={styles.detailsCard}>
-              <p>Detailed weather information will be displayed here.</p>
+              {historicalData ? (
+              < HistoricalWeatherVisualization historicalData={historicalData} />
+              ) : (
+                <p>Loading historical weather data...</p>
+              )}
             </div>
           </>
         );
