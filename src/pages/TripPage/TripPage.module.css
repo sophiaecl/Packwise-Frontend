@@ -643,4 +643,141 @@
 .tipsItem:last-child {
   margin-bottom: 0;
 }
+
+.pageHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.deleteButton {
+  background-color: #a8707d;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 15px;
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.deleteButton:hover {
+  background-color: #8f5c68;
+}
+
+/* Delete Modal Styles */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 30px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modalTitle {
+  color: #455e46;
+  font-family: Sunflare, sans-serif;
+  font-size: 24px;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.modalText {
+  color: #455e46;
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.modalWarning {
+  color: #a8707d;
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  margin-bottom: 25px;
+}
+
+.modalError {
+  background-color: #ffeaee;
+  color: #a8707d;
+  border: 1px solid #a8707d;
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 20px;
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+}
+
+.modalButtons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+}
+
+.cancelButton {
+  background-color: #f0e7dd;
+  border: 1px solid #a8707d;
+  color: #455e46;
+  border-radius: 4px;
+  padding: 8px 15px;
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.confirmDeleteButton {
+  background-color: #a8707d;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 15px;
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.cancelButton:hover {
+  background-color: #e7e0d8;
+}
+
+.confirmDeleteButton:hover {
+  background-color: #8f5c68;
+}
+
+.cancelButton:disabled,
+.confirmDeleteButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (width <= 640px) {
+  .modalContent {
+    padding: 20px;
+  }
+  
+  .modalButtons {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .cancelButton, 
+  .confirmDeleteButton {
+    width: 100%;
+  }
+}
   
