@@ -101,7 +101,7 @@ export const packingService = {
   // Generate a new packing list for a trip
   createPackingList: (tripId) => api.post(`/packing/generate/${tripId}`),
   // Update an existing packing list
-  updatePackingList: (listId, listData) => api.put(`/packing/${listId}`, listData, { params: { list_id: listId } }),
+  updatePackingList: (listId, listData) => api.put(`/packing/${listId}`, listData),
   // Delete a packing list
   deletePackingList: (listId) => api.delete(`/packing/${listId}`, { params: { list_id: listId } }),
   // Get packing progress for a trip
