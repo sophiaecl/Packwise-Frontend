@@ -136,11 +136,13 @@ const PackingRecommendations = ({ packingListId, addItemToPackingList, alreadyPa
                   >
                     <div className={styles.itemDetails}>
                       <span className={styles.itemName}>{item.item_name}</span>
-                      <div className={styles.percentageContainer}>
-                        <div 
-                          className={styles.percentageBar}
-                          style={{ width: `${item.percentage}%` }}
-                        ></div>
+                      <div className={styles.percentageWrapper}>
+                        <div className={styles.percentageContainer}>
+                          <div 
+                            className={styles.percentageBar}
+                            style={{ width: `${item.percentage}%` }}
+                          ></div>
+                        </div>
                         <span className={styles.percentageText}>{item.percentage}%</span>
                       </div>
                     </div>
