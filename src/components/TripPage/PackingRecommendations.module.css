@@ -1,196 +1,202 @@
 .recommendationsContainer {
-    border: 1px solid #e7c2cb;
-    border-radius: 8px;
-    margin-top: 16px;
-    background-color: #f8f8f8;
-    overflow: hidden;
-  }
-  
-  .recommendationsSummary {
-    background-color: #e7c2cb;
-    padding: 12px 16px;
-    border-bottom: 1px solid #a8707d;
-  }
-  
-  .recommendationsSummary p {
-    color: #455e46;
-    font-family: 'Playfair Display', serif;
-    font-size: 16px;
-    margin: 0;
-  }
-  
-  .recommendationCategory {
-    border-bottom: 1px solid #e7c2cb;
-  }
-  
-  .recommendationCategory:last-child {
-    border-bottom: none;
-  }
-  
-  .categoryHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 16px;
-    background-color: #f0e7dd;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-  }
-  
-  .categoryHeader:hover {
-    background-color: #e7c2cb;
-  }
-  
-  .categoryName {
-    margin: 0;
-    font-family: 'Playfair Display', serif;
-    font-size: 16px;
-    color: #455e46;
-    font-weight: 600;
-  }
-  
-  .itemCount {
-    font-size: 14px;
-    color: #a8707d;
-    margin-left: auto;
-    margin-right: 10px;
-  }
-  
-  .toggleIcon {
-    color: #a8707d;
-    font-size: 12px;
-  }
-  
-  .recommendedItems {
-    padding: 8px 0;
-    background-color: white;
-  }
-  
+  border: 1px solid #e7c2cb;
+  border-radius: 8px;
+  margin-top: 16px;
+  background-color: #f8f8f8;
+  overflow: hidden;
+}
+
+.recommendationsSummary {
+  background-color: #e7c2cb;
+  padding: 12px 16px;
+  border-bottom: 1px solid #a8707d;
+}
+
+.recommendationsSummary p {
+  color: #455e46;
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  margin: 0;
+}
+
+.recommendationCategory {
+  border-bottom: 1px solid #e7c2cb;
+}
+
+.recommendationCategory:last-child {
+  border-bottom: none;
+}
+
+.categoryHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background-color: #f0e7dd;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.categoryHeader:hover {
+  background-color: #e7c2cb;
+}
+
+.categoryName {
+  margin: 0;
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  color: #455e46;
+  font-weight: 600;
+}
+
+.itemCount {
+  font-size: 14px;
+  color: #a8707d;
+  margin-left: auto;
+  margin-right: 10px;
+}
+
+.toggleIcon {
+  color: #a8707d;
+  font-size: 12px;
+}
+
+.recommendedItems {
+  padding: 8px 0;
+  background-color: white;
+}
+
+.recommendedItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  border-bottom: 1px dashed #f0e7dd;
+  transition: background-color 0.2s ease;
+}
+
+.recommendedItem:last-child {
+  border-bottom: none;
+}
+
+.recommendedItem:hover {
+  background-color: #f9f9f9;
+}
+
+.alreadyPacked {
+  background-color: #f0f0f0;
+  opacity: 0.7;
+}
+
+.itemDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 70%;
+}
+
+.itemName {
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  color: #455e46;
+}
+
+.percentageWrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.percentageContainer {
+  position: relative;
+  height: 6px;
+  background-color: #f0e7dd;
+  border-radius: 3px;
+  overflow: hidden;
+  flex-grow: 1;
+}
+
+.percentageBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-color: #68876a;
+  border-radius: 3px;
+}
+
+.percentageText {
+  font-size: 12px;
+  color: #a8707d;
+  min-width: 35px;
+  text-align: right;
+}
+
+.itemActions {
+  display: flex;
+  align-items: center;
+}
+
+.addItemButton {
+  background-color: #e7c2cb;
+  border: 1px solid #a8707d;
+  border-radius: 4px;
+  color: #455e46;
+  padding: 6px 8px;
+  font-family: 'Playfair Display', serif;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.addItemButton:hover {
+  background-color: #d3aeb7;
+}
+
+.alreadyPackedBadge {
+  background-color: #f0e7dd;
+  border-radius: 4px;
+  color: #a8707d;
+  padding: 6px 8px;
+  font-family: 'Playfair Display', serif;
+  font-size: 12px;
+}
+
+.recommendationsLoading,
+.recommendationsError,
+.recommendationsEmpty {
+  padding: 16px;
+  text-align: center;
+  color: #455e46;
+  font-family: 'Playfair Display', serif;
+}
+
+.recommendationsError {
+  color: #a8707d;
+}
+
+.recommendationsEmpty ul {
+  text-align: left;
+  margin-top: 8px;
+  padding-left: 20px;
+}
+
+@media (width <= 640px) {
   .recommendedItem {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 16px;
-    border-bottom: 1px dashed #f0e7dd;
-    transition: background-color 0.2s ease;
-  }
-  
-  .recommendedItem:last-child {
-    border-bottom: none;
-  }
-  
-  .recommendedItem:hover {
-    background-color: #f9f9f9;
-  }
-  
-  .alreadyPacked {
-    background-color: #f0f0f0;
-    opacity: 0.7;
-  }
-  
-  .itemDetails {
-    display: flex;
     flex-direction: column;
-    gap: 4px;
-    width: 70%;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 12px 16px;
   }
-  
-  .itemName {
-    font-family: 'Playfair Display', serif;
-    font-size: 15px;
-    color: #455e46;
-  }
-  
-  .percentageContainer {
-    position: relative;
-    height: 6px;
-    background-color: #f0e7dd;
-    border-radius: 3px;
-    overflow: hidden;
+
+  .itemDetails {
     width: 100%;
   }
-  
-  .percentageBar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    background-color: #68876a;
-    border-radius: 3px;
-  }
-  
-  .percentageText {
-    position: absolute;
-    top: -16px;
-    right: 0;
-    font-size: 12px;
-    color: #a8707d;
-  }
-  
+
   .itemActions {
-    display: flex;
-    align-items: center;
+    width: 100%;
+    justify-content: flex-end;
   }
-  
-  .addItemButton {
-    background-color: #e7c2cb;
-    border: 1px solid #a8707d;
-    border-radius: 4px;
-    color: #455e46;
-    padding: 6px 8px;
-    font-family: 'Playfair Display', serif;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-  
-  .addItemButton:hover {
-    background-color: #d3aeb7;
-  }
-  
-  .alreadyPackedBadge {
-    background-color: #f0e7dd;
-    border-radius: 4px;
-    color: #a8707d;
-    padding: 6px 8px;
-    font-family: 'Playfair Display', serif;
-    font-size: 12px;
-  }
-  
-  .recommendationsLoading,
-  .recommendationsError,
-  .recommendationsEmpty {
-    padding: 16px;
-    text-align: center;
-    color: #455e46;
-    font-family: 'Playfair Display', serif;
-  }
-  
-  .recommendationsError {
-    color: #a8707d;
-  }
-  
-  .recommendationsEmpty ul {
-    text-align: left;
-    margin-top: 8px;
-    padding-left: 20px;
-  }
-  
-  @media (width <= 640px) {
-    .recommendedItem {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 8px;
-      padding: 12px 16px;
-    }
-  
-    .itemDetails {
-      width: 100%;
-    }
-  
-    .itemActions {
-      width: 100%;
-      justify-content: flex-end;
-    }
-  }
+}

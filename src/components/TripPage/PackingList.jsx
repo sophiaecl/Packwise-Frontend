@@ -2,12 +2,15 @@ import React, { useState, useEffect } from "react";
 import styles from "../../pages/TripPage/TripPage.module.css";
 import { packingService } from "../../services/api";
 
-function InteractivePackingList({ packingListData, listId, onUpdate }) {
+function InteractivePackingList({ packingListData, listId, onUpdate, onDelete }) {
   const [packingList, setPackingList] = useState(packingListData);
   const [expandedCategories, setExpandedCategories] = useState({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [deleteError, setDeleteError] = useState(null);
 
   // Initialize with all categories collapsed
   useEffect(() => {
@@ -104,6 +107,27 @@ function InteractivePackingList({ packingListData, listId, onUpdate }) {
     }
   };
 
+  const handleDeleteList = async () => {
+    try {
+      setDeleteLoading(true);
+      setDeleteError(null);
+      
+      await packingService.deletePackingList(listId);
+      
+      if (onDelete) {
+        onDelete(listId);
+      }
+      
+      setSuccessMessage("Packing list deleted");
+      // The component will unmount when the parent removes it
+    } catch (err) {
+      console.error("Error deleting packing list:", err);
+      setDeleteError("Failed to delete packing list. Please try again.");
+      setDeleteLoading(false);
+      setShowDeleteModal(false);
+    }
+  };
+
   if (!packingList || !packingList.categories) {
     return <div>No packing list data available</div>;
   }
@@ -123,17 +147,58 @@ function InteractivePackingList({ packingListData, listId, onUpdate }) {
       {error && <div className={styles.errorMessage}>{error}</div>}
       {successMessage && <div className={styles.successMessage}>{successMessage}</div>}
       
-      <div className={styles.packingProgress}>
-        <div className={styles.progressText}>
-          Packing Progress: {packedItems} of {totalItems} items ({progressPercentage}%)
+      <div className={styles.packingProgressContainer}>
+        <div className={styles.packingProgress}>
+          <div className={styles.progressText}>
+            Packing Progress: {packedItems} of {totalItems} items ({progressPercentage}%)
+          </div>
+          <div className={styles.progressBarContainer}>
+            <div 
+              className={styles.progressBarFill} 
+              style={{ width: `${progressPercentage}%` }}
+            />
+          </div>
         </div>
-        <div className={styles.progressBarContainer}>
-          <div 
-            className={styles.progressBarFill} 
-            style={{ width: `${progressPercentage}%` }}
-          />
-        </div>
+        <button 
+          className={styles.deleteListButton} 
+          onClick={() => setShowDeleteModal(true)}
+          title="Delete this packing list"
+        >
+          Delete List
+        </button>
       </div>
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteModal && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <h2 className={styles.modalTitle}>Delete Packing List</h2>
+            <p className={styles.modalText}>
+              Are you sure you want to delete this packing list and all associated activity recommendations and packing tips?
+            </p>
+            <p className={styles.modalWarning}>
+              This action cannot be undone.
+            </p>
+            {deleteError && <p className={styles.modalError}>{deleteError}</p>}
+            <div className={styles.modalButtons}>
+              <button
+                className={styles.cancelButton}
+                onClick={() => setShowDeleteModal(false)}
+                disabled={deleteLoading}
+              >
+                Cancel
+              </button>
+              <button
+                className={styles.confirmDeleteButton}
+                onClick={handleDeleteList}
+                disabled={deleteLoading}
+              >
+                {deleteLoading ? "Deleting..." : "Delete"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {packingList.categories.map((category, categoryIndex) => (
         <div key={categoryIndex} className={styles.packingCategory}>
