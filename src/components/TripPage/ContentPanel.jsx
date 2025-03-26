@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from "../../pages/TripPage/TripPage.module.css";
-import { packingService } from "../../services/api";
+import { packingService, tripService } from "../../services/api";
 import InteractivePackingList from "./PackingList";
 import HistoricalWeatherVisualization from './WeatherVisualization';
 import PackingRecommendations from "./PackingRecommendations";
@@ -13,10 +13,24 @@ function ContentPanel({ activeTab, tripData, weatherData, packingLists, historic
   const [currentPackingLists, setCurrentPackingLists] = useState(packingLists);
   const [packingListIds, setPackingListIds] = useState([]);
   
+  // Add state for the edited trip data
+  const [editedTripData, setEditedTripData] = useState(tripData);
+  // Add state for the update warning modal
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
+  // Add state for update operation loading
+  const [updateLoading, setUpdateLoading] = useState(false);
+  // Add state for update success message
+  const [updateSuccess, setUpdateSuccess] = useState(null);
+  
   // Update local state when prop changes
   useEffect(() => {
     setCurrentPackingLists(packingLists);
   }, [packingLists]);
+  
+  // Update editedTripData when tripData changes
+  useEffect(() => {
+    setEditedTripData(tripData);
+  }, [tripData]);
   
   // Fetch packing list IDs when tripData is available
   useEffect(() => {
@@ -53,6 +67,72 @@ function ContentPanel({ activeTab, tripData, weatherData, packingLists, historic
       month: 'long', 
       day: 'numeric'
     });
+  };
+
+  // Handle input changes for the trip form
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditedTripData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  // Handle update button click
+  const handleUpdateClick = () => {
+    if (isEditing) {
+      // If we're already editing, this is the "Save" button click
+      // Show the warning modal
+      setShowUpdateModal(true);
+    } else {
+      // If we're not editing, this is the "Update" button click
+      // Enter edit mode
+      setIsEditing(true);
+    }
+  };
+
+  // Handle cancel button click
+  const handleCancelEdit = () => {
+    // Reset edited data to original data
+    setEditedTripData(tripData);
+    setIsEditing(false);
+    setError(null);
+  };
+
+  // Close the update warning modal
+  const handleCloseUpdateModal = () => {
+    setShowUpdateModal(false);
+  };
+
+  // Handle confirm update
+  const handleConfirmUpdate = async () => {
+    setUpdateLoading(true);
+    setError(null);
+    
+    try {
+      // Call the update API
+      await tripService.updateTrip(tripData.trip_id, editedTripData);
+      
+      // Show success message
+      setUpdateSuccess("Trip updated successfully! Refreshing data...");
+      
+      // Close the modal
+      setShowUpdateModal(false);
+      
+      // Exit edit mode
+      setIsEditing(false);
+      
+      // Reload the page after a short delay to get updated data
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
+    } catch (err) {
+      console.error("Error updating trip:", err);
+      setError("Failed to update trip. Please try again.");
+      setShowUpdateModal(false);
+    } finally {
+      setUpdateLoading(false);
+    }
   };
 
   // Handle creating a new packing list
@@ -261,7 +341,109 @@ function ContentPanel({ activeTab, tripData, weatherData, packingLists, historic
   const renderContent = () => {
     switch (activeTab) {
       case "Trip Info":
-        return (
+        return isEditing ? (
+          // Edit form UI
+          <div className={styles.editTripForm}>
+            {error && <div className={styles.errorMessage}>{error}</div>}
+            {updateSuccess && <div className={styles.successMessage}>{updateSuccess}</div>}
+
+            <form>
+              <div className={styles.formRow}>
+                <div className={styles.formGroup}>
+                  <label className={styles.formLabel}>City</label>
+                  <input 
+                    type="text" 
+                    name="city" 
+                    value={editedTripData?.city || ''} 
+                    onChange={handleInputChange}
+                    className={styles.formInput}
+                    required
+                  />
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label className={styles.formLabel}>Country</label>
+                  <input 
+                    type="text" 
+                    name="country" 
+                    value={editedTripData?.country || ''} 
+                    onChange={handleInputChange}
+                    className={styles.formInput}
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className={styles.formRow}>
+                <div className={styles.formGroup}>
+                  <label className={styles.formLabel}>Start Date</label>
+                  <input 
+                    type="date" 
+                    name="start_date" 
+                    value={editedTripData?.start_date || ''} 
+                    onChange={handleInputChange}
+                    className={styles.formInput}
+                    required
+                  />
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label className={styles.formLabel}>End Date</label>
+                  <input 
+                    type="date" 
+                    name="end_date" 
+                    value={editedTripData?.end_date || ''} 
+                    onChange={handleInputChange}
+                    className={styles.formInput}
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className={styles.formRow}>
+                <div className={styles.formGroup}>
+                  <label className={styles.formLabel}>Luggage Type</label>
+                  <select 
+                    name="luggage_type" 
+                    value={editedTripData?.luggage_type || 'carry on'}
+                    onChange={handleInputChange}
+                    className={styles.formSelect}
+                    required
+                  >
+                    <option value="hand">Hand Luggage</option>
+                    <option value="carry on">Carry On</option>
+                    <option value="checked">Checked Luggage</option>
+                  </select>
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label className={styles.formLabel}>Trip Purpose</label>
+                  <select 
+                    name="trip_purpose" 
+                    value={editedTripData?.trip_purpose || 'vacation'}
+                    onChange={handleInputChange}
+                    className={styles.formSelect}
+                    required
+                  >
+                    <option value="business">Business</option>
+                    <option value="vacation">Vacation</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className={styles.formActions}>
+                <button 
+                  type="button" 
+                  className={styles.cancelButton}
+                  onClick={handleCancelEdit}
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        ) : (
+          // Display UI
           <div className={styles.detailsCard}>
             <dl className={styles.detailsList}>
               <div className={styles.detailItem}>
@@ -378,7 +560,7 @@ function ContentPanel({ activeTab, tripData, weatherData, packingLists, historic
         {activeTab === "Trip Info" && (
           <button 
             className={styles.updateButton}
-            onClick={() => setIsEditing(!isEditing)}
+            onClick={handleUpdateClick}
           >
             {isEditing ? "Save" : "Update"}
           </button>
@@ -394,6 +576,37 @@ function ContentPanel({ activeTab, tripData, weatherData, packingLists, historic
         )}
       </div>
       {renderContent()}
+
+      {/* Update Warning Modal */}
+      {showUpdateModal && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <h2 className={styles.modalTitle}>Update Trip</h2>
+            <p className={styles.modalText}>
+              You're about to update your trip details. This may affect the accuracy of your current packing lists and weather predictions.
+            </p>
+            <p className={styles.modalWarning}>
+              Changes to destination or dates may require you to generate new packing lists for the best recommendations.
+            </p>
+            <div className={styles.modalButtons}>
+              <button 
+                className={styles.cancelButton}
+                onClick={handleCloseUpdateModal}
+                disabled={updateLoading}
+              >
+                Cancel
+              </button>
+              <button 
+                className={styles.confirmDeleteButton}
+                onClick={handleConfirmUpdate}
+                disabled={updateLoading}
+              >
+                {updateLoading ? "Updating..." : "Update Trip"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
