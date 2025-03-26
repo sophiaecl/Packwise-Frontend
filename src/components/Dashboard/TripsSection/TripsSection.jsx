@@ -5,7 +5,7 @@ import SearchAndFilters from "./SearchAndFilters";
 import { useNavigate } from "react-router-dom";
 import { packingService } from "../../../services/api"; // Import the packing service
 
-function TripsSection({ trips: initialTrips = [], loading: initialLoading = false }) {
+function TripsSection({ trips: initialTrips = [], loading: initialLoading = false, onProgressUpdate }) {
   const [trips, setTrips] = useState(initialTrips);
   const [filteredTrips, setFilteredTrips] = useState(initialTrips);
   const [loading, setLoading] = useState(initialLoading);
@@ -83,6 +83,20 @@ function TripsSection({ trips: initialTrips = [], loading: initialLoading = fals
     fetchPackingProgress();
   }, [trips]);
 
+  // Calculate and send average progress to parent component
+  useEffect(() => {
+    if (Object.keys(tripsProgress).length > 0) {
+      const progressValues = Object.values(tripsProgress);
+      const totalProgress = progressValues.reduce((sum, progress) => sum + progress, 0);
+      const averageProgress = Math.round(totalProgress / progressValues.length);
+      
+      // Send average progress to parent component if callback exists
+      if (onProgressUpdate) {
+        onProgressUpdate(averageProgress);
+      }
+    }
+  }, [tripsProgress, onProgressUpdate]);
+
   const formatDate = (dateString) => {
     const date = new Date(dateString.replace(/\//g, '-'));
     return date.toLocaleDateString('en-US', {
@@ -140,7 +154,7 @@ function TripsSection({ trips: initialTrips = [], loading: initialLoading = fals
     setFilteredTrips(filtered);
   };
   
-  // Function to determine trip status based on dates (keep this as is)
+  // Function to determine trip status based on dates
   const determineTripStatus = (startDate, endDate) => {
     const today = new Date();
     const start = new Date(startDate.replace(/\//g, '-'));
