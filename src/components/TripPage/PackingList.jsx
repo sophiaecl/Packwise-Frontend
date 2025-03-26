@@ -12,14 +12,10 @@ function InteractivePackingList({ packingListData, listId, onUpdate, onDelete })
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [deleteError, setDeleteError] = useState(null);
 
-  // Initialize with all categories collapsed
+  // Initialize with collapsed categories, but keep the component state separate from props
   useEffect(() => {
-    if (packingListData && packingListData.categories) {
-      // All categories start collapsed (no need to explicitly set false values)
-      const initialExpandedState = {};
-      setExpandedCategories(initialExpandedState);
-    }
     setPackingList(packingListData);
+    // Important: We don't reset expandedCategories here, allowing them to persist
   }, [packingListData]);
 
   const toggleCategory = (categoryIndex) => {
@@ -89,7 +85,6 @@ function InteractivePackingList({ packingListData, listId, onUpdate, onDelete })
       setError(null);
       
       // Format the data according to your backend API expectation
-      // Your backend expects a "packing_list" property in the update_data
       await packingService.updatePackingList(listId, { packing_list: updatedList });
       
       if (onUpdate) {
