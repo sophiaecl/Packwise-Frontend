@@ -112,7 +112,7 @@ export const authService = {
 
 // Trip services
 export const tripService = {
-  getTrips: () => api.get('/dashboard'),
+  getTrips: () => axios.get('https://packwise-backend-580624387675.europe-southwest1.run.app/dashboard'),
   getTripWeather: (tripId) => api.get(`/trips/weather/${tripId}`),
   createTrip: (tripData) => api.post('/trips', tripData),
   getTrip: (tripId) => api.get(`/trips/${tripId}`),
