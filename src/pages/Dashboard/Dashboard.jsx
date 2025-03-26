@@ -5,7 +5,7 @@ import StatsCard from "../../components/Dashboard/StatsCard/StatsCard";
 import TripsSection from "../../components/Dashboard/TripsSection/TripsSection";
 import NotificationsSection from "../../components/Dashboard/NotificationsSection/NotificationsSection";
 import { useAuth } from "../../context/auth-context";
-import { dashboardService, tripService, packingService } from "../../services/api";
+import { dashboardService } from "../../services/api";
 
 function Dashboard() {
   const { currentUser } = useAuth();
@@ -17,6 +17,7 @@ function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [userName, setUserName] = useState("traveler");
   const [trips, setTrips] = useState([]);
+  const [packingProgress, setPackingProgress] = useState(0);
 
   // Fetch dashboard data when component mounts
   useEffect(() => {
@@ -42,10 +43,10 @@ function Dashboard() {
           return startDate > today;
         });
         
-        // Update stats based on the fetched trips
+        // Update stats based on the fetched trips (without packing progress for now)
         setStats([
           { title: "Total Trips", value: response.data.trips.length.toString() },
-          { title: "Average Packing Progress", value: "0%" },
+          { title: "Average Packing Progress", value: "0%" }, // Will be updated later
           { title: "Upcoming Trips", value: upcomingTrips.length.toString() },
         ]);
         
@@ -58,6 +59,30 @@ function Dashboard() {
 
     fetchDashboardData();
   }, []);
+
+  // Update stats when packing progress changes
+  useEffect(() => {
+    // Only update if we have trips (to avoid resetting when there are no trips)
+    if (trips.length > 0) {
+      setStats(prevStats => {
+        const updatedStats = [...prevStats];
+        // Find the Average Packing Progress stat and update its value
+        const progressIndex = updatedStats.findIndex(stat => stat.title === "Average Packing Progress");
+        if (progressIndex !== -1) {
+          updatedStats[progressIndex] = { 
+            title: "Average Packing Progress", 
+            value: `${packingProgress}%` 
+          };
+        }
+        return updatedStats;
+      });
+    }
+  }, [packingProgress, trips]);
+
+  // Handle progress update from TripsSection
+  const handleProgressUpdate = (avgProgress) => {
+    setPackingProgress(avgProgress);
+  };
 
   return (
     <div className={styles.app}>
@@ -77,7 +102,11 @@ function Dashboard() {
       </section>
 
       <main className={styles.contentContainer}>
-        <TripsSection trips={trips} loading={loading} />
+        <TripsSection 
+          trips={trips} 
+          loading={loading} 
+          onProgressUpdate={handleProgressUpdate}
+        />
         <NotificationsSection />
       </main>
     </div>
