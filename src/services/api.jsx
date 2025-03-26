@@ -123,7 +123,7 @@ export const tripService = {
 
 // Dashboard services
 export const dashboardService = {
-  getData: () => api.get('/dashboard')
+  getData: () => axios.get('https://packwise-backend-580624387675.europe-southwest1.run.app/dashboard')
 };
 
 // Packing services
