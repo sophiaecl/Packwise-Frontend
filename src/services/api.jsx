@@ -81,7 +81,7 @@ export const authService = {
     formData.append('age', userData.age);
     formData.append('gender', userData.gender);
     
-    return axios.post(`${API_URL}/auth/register`, formData);
+    return axios.post(`/auth/register`, formData);
   },
   
   // Login user
@@ -90,7 +90,7 @@ export const authService = {
     formData.append('username', credentials.username);
     formData.append('password', credentials.password);
     
-    const response = await axios.post(`${API_URL}/auth/token`, formData);
+    const response = await axios.post(`/auth/token`, formData);
     if (response.data.access_token) {
       localStorage.setItem('token', response.data.access_token);
     }
