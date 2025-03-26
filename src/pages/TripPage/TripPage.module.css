@@ -1098,3 +1098,63 @@
 .confirmDeleteButton {
   background-color:
 }
+
+/* Form styles for trip updating */
+.editTripForm {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.formRow {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.formGroup {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.formLabel {
+  color: #455e46;
+  font-family: "Playfair Display", serif;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.formInput, .formSelect {
+  border: 1px solid #a8707d;
+  border-radius: 4px;
+  height: 40px;
+  padding: 0 10px;
+  font-family: "Playfair Display", serif;
+  font-size: 16px;
+  color: #455e46;
+}
+
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.successMessage {
+  background-color: #e0f0e3;
+  color: #455e46;
+  border: 1px solid #68876a;
+  border-radius: 4px;
+  padding: 10px 16px;
+  margin-bottom: 16px;
+  font-family: "Playfair Display", serif;
+}
+
+/* Responsive adjustments */
+@media (width <= 768px) {
+  .formRow {
+    flex-direction: column;
+    gap: 15px;
+  }
+}
