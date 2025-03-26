@@ -1,7 +1,7 @@
 // src/services/api.js
 import axios from 'axios';
 
-// const API_URL = 'http://localhost:8000';
+/* const API_URL = 'http://localhost:8000';
 const API_URL = 'https://packwise-backend-580624387675.europe-southwest1.run.app';
 
 // Create axios instance with base URL
@@ -10,9 +10,42 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+});*/
+
+// Make sure URL always uses HTTPS in production
+const API_URL = 'https://packwise-backend-580624387675.europe-southwest1.run.app';
+
+// Force HTTPS for non-localhost URLs
+const secureUrl = API_URL.startsWith('http:') && !API_URL.includes('localhost') 
+  ? API_URL.replace('http:', 'https:') 
+  : API_URL;
+
+const api = axios.create({
+  baseURL: secureUrl,
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });
 
-// Request interceptor to attach JWT token to requests
+// Add protocol enforcement to request interceptor
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
+    
+    // Force HTTPS for production URLs
+    if (config.url && !config.url.includes('localhost') && config.url.startsWith('http:')) {
+      config.url = config.url.replace('http:', 'https:');
+    }
+    
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+/* Request interceptor to attach JWT token to requests
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
@@ -22,7 +55,7 @@ api.interceptors.request.use(
     return config;
   },
   (error) => Promise.reject(error)
-);
+);*/
 
 // Response interceptor to handle token expiration
 api.interceptors.response.use(
