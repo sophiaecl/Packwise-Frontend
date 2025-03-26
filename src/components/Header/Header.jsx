@@ -40,7 +40,7 @@ function Header() {
       <h1 className={styles.logo}>PackWise</h1>
       <div className={styles.profileContainer} ref={dropdownRef}>
         <img 
-          src="../../../public/profile.svg" 
+          src="/profile.svg" 
           alt="Profile" 
           className={styles.profileImage}
           onClick={handleProfileClick}
