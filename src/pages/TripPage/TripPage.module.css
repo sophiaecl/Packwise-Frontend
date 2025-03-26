@@ -19,7 +19,7 @@
     margin-bottom: 10px;
     font-family: Michelia, sans-serif;
     font-size: 64px;
-    margin: 0 0 10px 0;
+    
   }
   
   @media (width<=991px) {
@@ -329,12 +329,11 @@
     padding: 20px;
     background-color: #f8e6e6;
     border-radius: 10px;
-    width: 100%;
+    width: 96.5%;
     display: flex;
     flex-direction: column;
     gap: 20px;
     display: flex;
-
   }
   
   .packingListHeader {

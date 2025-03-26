@@ -12,8 +12,11 @@ function TripsSection({ trips: initialTrips = [], loading: initialLoading = fals
 
   // Update local state when props change
   useEffect(() => {
-    setTrips(initialTrips);
-    setFilteredTrips(initialTrips);
+    const sortedTrips = [...initialTrips].sort((a, b) => 
+      new Date(a.start_date.replace(/\//g, '-')) - new Date(b.start_date.replace(/\//g, '-'))
+    );
+    setTrips(sortedTrips);
+    setFilteredTrips(sortedTrips);
     setLoading(initialLoading);
   }, [initialTrips, initialLoading]);
 
