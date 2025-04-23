@@ -1,19 +1,8 @@
 // src/services/api.js
 import axios from 'axios';
 
-/* const API_URL = 'http://localhost:8000';
-const API_URL = 'https://packwise-backend-580624387675.europe-southwest1.run.app';
-
-// Create axios instance with base URL
-const api = axios.create({
-  baseURL: API_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});*/
-
 // Make sure URL always uses HTTPS in production
-const API_URL = 'https://packwise-backend-580624387675.europe-southwest1.run.app';
+const API_URL = 'http://localhost:8000';
 
 // Force HTTPS for non-localhost URLs
 const secureUrl = API_URL.startsWith('http:') && !API_URL.includes('localhost') 
