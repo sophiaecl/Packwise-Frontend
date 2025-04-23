@@ -52,7 +52,7 @@ src/
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/packwise-frontend.git
+   git clone https://github.com/sophiaecl/packwise-frontend.git
    cd packwise-frontend
    ```
 
